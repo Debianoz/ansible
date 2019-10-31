@@ -1,0 +1,27 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Install Apache
+      yum: name=httpd state=present
+
+    - name: Copy index
+      copy:
+        src: /home/jtorres/towebserver/index.html
+        dest: /var/www/html
+        owner: root
+        group: root
+
+    - name: Configure Firewalld rules
+      firewalld:
+        service: http
+        zone: public
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+    - name: Enable Apache
+      systemd:
+        name: httpd
+        enabled: yes
+        state: started
