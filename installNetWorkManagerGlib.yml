@@ -1,0 +1,8 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Install NetworkManagerGlib
+      yum:
+        name: NetworkManager-glib
+        state: present

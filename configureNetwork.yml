@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Add new connection
+      nmcli:
+        type: ethernet
+        ifname: ens37
+        conn_name: "{{ connection_name }}" 
+        autoconnect: yes
+        ip4: "{{ ip_v4 }}"
+        state: present
+    
+    - name: Configure HTTP Port
+      lineinfile:
+        dest: /etc/httpd/conf/httpd.conf
+        regexp: "^Listen 80"
+        line: "Listen {{ httpd_listen_address }}:8081"
+        state: present
+

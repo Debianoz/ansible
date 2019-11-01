@@ -1,0 +1,59 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd 
+        state: present
+
+    - name: Copy index
+      copy:
+        src: /home/jtorres/towebserver/index.html
+        dest: /var/www/html
+        owner: root
+        group: root
+
+    - name: Add new connection
+      nmcli:
+        type: ethernet
+        ifname: ens37
+        conn_name: "{{ connection_name }}"
+        autoconnect: yes
+        ip4: "{{ ip_v4 }}"
+        state: present
+
+    - name: Configure HTTP Port
+      lineinfile:
+        dest: /etc/httpd/conf/httpd.conf
+        regexp: "^Listen 80"
+        line: "Listen {{ httpd_listen_address }}:8081"
+        state: present
+
+    - name: Configure Firewalld services
+      firewalld:
+        service: http
+        zone: public
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+    - name: Configure Firewalld Port
+      firewalld:
+        port: 8081/tcp
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+    - name: Configure Selinux port
+      seport:
+        ports: 8081
+        proto: tcp
+        setype: http_port_t
+        state: present
+
+    - name: Start Apache
+      systemd:
+        name: httpd
+        enabled: yes
+        state: started
