@@ -1,0 +1,13 @@
+---
+- name: Test vars
+  hosts: webservers
+  tasks:
+    - name: Print the var1 {{ var1 }}
+      debug:
+        msg: "Show the {{ var1 }}"
+    - name: Print the var2 {{ var2 }}
+      debug:
+        msg: "Show the {{ var2 }}"
+    - name: Print the var3 {{ var3 }}
+      debug:
+        msg: "Show the {{ var3 }}"

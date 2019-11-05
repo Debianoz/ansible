@@ -1,0 +1,7 @@
+[webservers]
+webserver1
+webserver2
+
+[webservers:vars]
+var1=Variable1_in_inventory 
+var2=Variable2_in_inventory

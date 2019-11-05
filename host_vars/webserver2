@@ -1,0 +1,3 @@
+httpd_listen_address: 192.168.0.170
+connection_name: webserver2_lan2
+ip_v4: "{{ httpd_listen_address }}/24"

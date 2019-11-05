@@ -1,0 +1,6 @@
+---
+- name: Who am i?
+  hosts: all
+  tasks:
+    - name: Answer who am i
+      shell: whoami > /tmp/whoami

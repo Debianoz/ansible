@@ -1,0 +1,5 @@
+connection_name: webserver1_lan2
+httpd_listen_address: 192.168.0.160
+ip_v4: "{{ httpd_listen_address }}/24"
+var1: Variable1_en_host_vars
+var2: Variable2_en_host_vars

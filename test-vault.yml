@@ -1,0 +1,11 @@
+---
+- name: Test Vault feature
+  hosts: all
+  become: True
+  vars_files:
+    - contra.yml
+  tasks:
+    - name: Create a test user using vault password
+      user:
+        name: "{{ username }}"
+        password: "{{ password | password_hash('sha512') }}"
